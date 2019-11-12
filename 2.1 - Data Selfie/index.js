@@ -11,6 +11,17 @@ database.loadDatabase();
 app.use(express.static('public'));
 app.use(express.json());
 
+app.get('/api', (req, res) => {
+    database.find({}, (err, data) => {
+        if (err) {
+            res.json({error: err});
+            res.end();
+        } else {
+            res.json(data);
+        }
+    });
+});
+
 app.post('/api', (req, res) => {
     const data = req.body;
     data.timestamp = Date.now();
