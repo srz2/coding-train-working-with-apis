@@ -7,6 +7,8 @@ var marker = undefined;//L.marker([0, 0], {icon: issIcon}).addTo(mymap);
 const tiles = L.tileLayer(tileUrl, { attribution: attribution });
 tiles.addTo(mymap)
 
+var boo_FirstLoad = true;
+
 function getIssImage() {
     fetch('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/International_Space_Station.svg/200px-International_Space_Station.svg.png')
         .then(res => {
@@ -41,11 +43,15 @@ async function getISS() {
     // L.marker([latitude, longitude]).addTo(mymap);
     if (marker != undefined){
         marker.setLatLng([latitude, longitude]);
+        if (boo_FirstLoad){
+            mymap.setView([latitude, longitude], 5);
+            boo_FirstLoad = false;
+        }
     }
 
-    document.getElementById('lat').innerHTML = latitude;
-    document.getElementById('lon').innerHTML = longitude;
-    document.getElementById('vel').innerHTML = velocity;
+    document.getElementById('lat').innerHTML = latitude.toFixed(2);
+    document.getElementById('lon').innerHTML = longitude.toFixed(2);
+    document.getElementById('vel').innerHTML = velocity.toFixed(2);
 }
 
 getIssImage();
