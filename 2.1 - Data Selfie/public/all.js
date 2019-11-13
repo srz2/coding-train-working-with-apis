@@ -4,12 +4,12 @@ async function getData() {
     console.log(dataSet);
 
 
-    const list = document.createElement('ul');
     dataSet.forEach(data => {
-        const root = document.createElement('li');
+        const root = document.createElement('p');
         const mood = document.createElement('div');
         const geo = document.createElement('div');
-        const date = document.createElement('div');        
+        const date = document.createElement('div');
+        const image = document.createElement('img');      
 
         var sz_Mood = ""
         if (data.mood === undefined || data.mood === null) {
@@ -23,10 +23,14 @@ async function getData() {
         const sz_Date = new Date(data.timestamp).toLocaleDateString();
         date.textContent = `${sz_Date}`;
 
-        root.append(mood, geo, date);
-        list.append(root);
-    });
-    document.body.append(list);
+        if (data.image64 === undefined){
+            root.append(mood, geo, date);
+        } else {
+            image.src = data.image64;
+            root.append(mood, geo, date, image);
+        }
+        document.body.append(root);  
+    });    
 }
 
 getData();
