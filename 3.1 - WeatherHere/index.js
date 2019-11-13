@@ -2,12 +2,13 @@ const express = require('express');
 const favicon = require('serve-favicon');
 const Datastore = require('nedb');
 const fetch = require('node-fetch');
+const config = require('./config');
 
 const app = express();
 const database = new Datastore('database.db');
 database.loadDatabase();
 
-const DARK_SKY_API_KEY = '94bd194d928a838a83da6b2fa9da6940';
+const DARK_SKY_API_KEY = process.env.DARK_SKY_API_KEY;
 
 app.use(favicon('./favicon.ico'));
 app.use(express.static('public'));
