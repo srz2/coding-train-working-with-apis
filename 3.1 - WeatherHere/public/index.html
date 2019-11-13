@@ -10,9 +10,14 @@
 <body>
     <h1>The Weather Here</h1>
 
-    <p><span id="checkin"><a href="">check in</a></span> | <span id="viewcheckins"><a href="">view checkins</a></span></p>
+    <span id="checkin"><a href="">check in</a></span> | <span id="viewcheckins"><a href="">view checkins</a></span>
 
-    <p class="coordinates"><span id="lat"></span>° , <span id="lon"></span>°</p>
+    <p class="coordinates">Location: <span id="lat"></span>°, <span id="lon"></span>° <span id="location"></span></p>
+
+    <p>
+        The weather here is <span id="summary"></span> with a temperature of <span id="temp"></span>&deg; fahrenheit.
+        The concentration of particulate matter ( <span id="aq_parameter"></span> ) is <span id="aq_value"></span> <span id="aq_units"></span> which was last read on <span id="aq_date"></span>.
+    </p>
 
     <form id="form-checkin" action="#">
         <button type="submit">check in</button>

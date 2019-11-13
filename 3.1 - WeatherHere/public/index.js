@@ -12,8 +12,18 @@ if ('geolocation' in navigator) {
         const api_url = `/weather/${lat},${lon}`; //`https://api.darksky.net/forecast/${DARK_SKY_API_KEY}/${lat},${lon}`;
         console.log('Sending Proxy: ' + api_url);
         const response = await fetch(api_url);
-        const json = await response.json();
-        console.log(json);
+        const data = await response.json();
+        console.log(data);
+
+        document.getElementById('location').textContent = data.weather.timezone.replace('_', ' ');
+        document.getElementById('summary').textContent = data.weather.currently.summary;
+        document.getElementById('temp').textContent = data.weather.currently.temperature;
+
+        const aq_data = data.air_quality.results[0].measurements[0];
+        document.getElementById('aq_parameter').textContent = aq_data.parameter;
+        document.getElementById('aq_value').textContent = aq_data.value;
+        document.getElementById('aq_units').textContent = aq_data.unit;
+        document.getElementById('aq_date').textContent = new Date(aq_data.lastUpdated).toLocaleDateString();
     });
 } else {
     console.log('Geolocation not available');
