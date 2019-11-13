@@ -15,6 +15,7 @@ if ('geolocation' in navigator) {
         const data = await response.json();
         console.log(data);
 
+        const weather_data = data.weather;
         document.getElementById('location').textContent = data.weather.timezone.replace('_', ' ');
         document.getElementById('summary').textContent = data.weather.currently.summary;
         document.getElementById('temp').textContent = data.weather.currently.temperature;
@@ -24,6 +25,18 @@ if ('geolocation' in navigator) {
         document.getElementById('aq_value').textContent = aq_data.value;
         document.getElementById('aq_units').textContent = aq_data.unit;
         document.getElementById('aq_date').textContent = new Date(aq_data.lastUpdated).toLocaleDateString();
+
+        const db_Data = { lat, lon, weather_data, aq_data};
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(db_Data)
+        };
+        const dbResponse = await fetch('/api', options);
+        const dbJson = await dbResponse.json();
+        console.log(dbJson);
     });
 } else {
     console.log('Geolocation not available');

@@ -5,11 +5,13 @@ const fetch = require('node-fetch');
 
 const app = express();
 const database = new Datastore('database.db');
+database.loadDatabase();
 
 const DARK_SKY_API_KEY = '94bd194d928a838a83da6b2fa9da6940';
 
 app.use(favicon('./favicon.ico'));
 app.use(express.static('public'));
+app.use(express.json({ limit: "1mb" }));
 
 app.listen(3000, () => {
     console.log('WeatherHere listening on port 3000');
@@ -38,3 +40,24 @@ app.get('/weather/:latlon', async (req, res) => {
     res.json(outputData);
 });
 
+app.get('/api', (req, res) => {
+    database.find({}, (err, data) => {
+        if (err) {
+            res.json({ error: err });
+            res.end();
+        } else {
+            res.json(data);
+        }
+    });
+});
+
+app.post('/api', (req, res) => {
+    var data = req.body;
+    console.log(data);
+    data.timestamp = Date.now();
+    database.insert(data);
+    res.json({
+        status: "Success",
+        data: data
+    });
+});
